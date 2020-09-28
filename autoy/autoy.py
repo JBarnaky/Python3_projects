@@ -19,13 +19,13 @@ pyautogui.write('https://www.youtube.com/')
 time.sleep(1)
 pyautogui.hotkey('enter')
 time.sleep(5)
-pyautogui.hotkey('tab')
+pyautogui.press('tab')
 time.sleep(0.1)
-pyautogui.hotkey('tab')
+pyautogui.press('tab')
 time.sleep(0.1)
-pyautogui.hotkey('tab')
+pyautogui.press('tab')
 time.sleep(0.1)
-pyautogui.hotkey('tab')
+pyautogui.press('tab')
 time.sleep(0.1)
 pyautogui.write('hololive')
 time.sleep(1)
@@ -34,7 +34,7 @@ time.sleep(3)
 im = pyautogui.screenshot(r"scr\screenshot1.png")
 
 try:
-    x, y = pyautogui.locateCenterOnScreen('scr\scr1.png', confidence=0.9)
+    x, y = pyautogui.locateCenterOnScreen('scr\scr1.png', confidence=0.9) #reqired OpenCV
     pyautogui.click(x, y)
     time.sleep(5)
     pyautogui.scroll(-800)
@@ -45,7 +45,7 @@ except:
     print("Can`t find the image")
 
 try:
-    x, y = pyautogui.locateCenterOnScreen('scr\scr2.png', confidence=0.9)
+    x, y = pyautogui.locateCenterOnScreen('scr\scr2.png', confidence=0.9) #reqired OpenCV
     pyautogui.click(x, y)
     time.sleep(5)
     pyautogui.scroll(-800)
@@ -54,3 +54,5 @@ try:
 
 except:
     print("Can`t find the image")
+    
+pyautogui.keyDown('alt'); pyautogui.press('f4'); pyautogui.keyUp('alt')
