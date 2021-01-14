@@ -6,11 +6,17 @@ import time
 time.sleep(1)
 
 
+def autoInput(string):
+    pyperclip.copy(string)
+    pyautogui.hotkey("ctrl", "v")
+    time.sleep(1)
+    pyautogui.press("Enter")
+    time.sleep(1)
+
+
 def manuloMyot228():
     manul_list = ['манул', 'манула', 'манулов', 'манулы']
-    num1 = 1
-    num2 = 4
-    manul_counter = 9
+    manul_counter = 1
 
     print("Прототип Призывателя Манулов версии 228 подключается ... ")
     time.sleep(1)
@@ -30,65 +36,37 @@ def manuloMyot228():
 
         if str(manul_counter) == str(11):
             string = str(manul_counter) + " " + manul_list[2]
-            pyperclip.copy(string)
-            pyautogui.hotkey("ctrl", "v")
-            time.sleep(1)
-            pyautogui.press("Enter")
-            time.sleep(1)
+            autoInput(string)
             manul_counter += 1
 
-        if str(manul_counter)[-1] == str(num1):
+        if str(manul_counter)[-1] == str(1):
             string = str(manul_counter) + " " + manul_list[0]
-            pyperclip.copy(string)
-            pyautogui.hotkey("ctrl", "v")
-            time.sleep(1)
-            pyautogui.press("Enter")
-            time.sleep(1)
+            autoInput(string)
             manul_counter += 1
 
         if str(manul_counter) == str(12):
             string = str(manul_counter) + " " + manul_list[2]
-            pyperclip.copy(string)
-            pyautogui.hotkey("ctrl", "v")
-            time.sleep(1)
-            pyautogui.press("Enter")
-            time.sleep(1)
+            autoInput(string)
             manul_counter += 1
 
         if str(manul_counter) == str(13):
             string = str(manul_counter) + " " + manul_list[2]
-            pyperclip.copy(string)
-            pyautogui.hotkey("ctrl", "v")
-            time.sleep(1)
-            pyautogui.press("Enter")
-            time.sleep(1)
+            autoInput(string)
             manul_counter += 1
 
         if str(manul_counter) == str(14):
             string = str(manul_counter) + " " + manul_list[2]
-            pyperclip.copy(string)
-            pyautogui.hotkey("ctrl", "v")
-            time.sleep(1)
-            pyautogui.press("Enter")
-            time.sleep(1)
+            autoInput(string)
             manul_counter += 1
 
-        elif str(num1) < str(manul_counter)[-1] <= str(num2):
+        elif str(1) < str(manul_counter)[-1] <= str(4):
             string = str(manul_counter) + " " + manul_list[1]
-            pyperclip.copy(string)
-            pyautogui.hotkey("ctrl", "v")
-            time.sleep(1)
-            pyautogui.press("Enter")
-            time.sleep(1)
+            autoInput(string)
             manul_counter += 1
 
-        elif str(manul_counter)[-1] > str(num2) or str(manul_counter)[-1] == str(0):
+        elif str(manul_counter)[-1] > str(4) or str(manul_counter)[-1] == str(0):
             string = str(manul_counter) + " " + manul_list[2]
-            pyperclip.copy(string)
-            pyautogui.hotkey("ctrl", "v")
-            time.sleep(1)
-            pyautogui.press("Enter")
-            time.sleep(1)
+            autoInput(string)
             manul_counter += 1
 
 
