@@ -2,87 +2,94 @@ import keyboard
 import pyautogui
 import pyperclip
 import time
-import multiprocessing
-import platform
 
-print(platform.python_implementation())
+time.sleep(1)
 
-time.sleep(5)  # Задержка начала выполнения в секундах
 
-def manulomyot2054():
-    s1 = " манул"
-    s2 = " манула"
-    s3 = " манулов"
-    s4 = " Мануломёт2054 подключается ... "
-    s5 = " Цель захвачена "
-    s6 = " Открываю огонь манулами на поражение "
+def manuloMyot228():
+    manul_list = ['манул', 'манула', 'манулов', 'манулы']
     num1 = 1
     num2 = 4
-    i = 2792  # Счетчик манулов, можно ввести свое число для начала отсчета
+    manul_counter = 9
 
-    pyperclip.copy(s4)
-    pyautogui.hotkey("ctrl", "v")
+    print("Прототип Призывателя Манулов версии 228 подключается ... ")
     time.sleep(1)
-    pyautogui.press("Enter")
-    time.sleep(1)
+    input("Нажмите Enter чтобы продолжить...")
 
-    pyperclip.copy(s5)
-    pyautogui.hotkey("ctrl", "v")
-    time.sleep(1)
-    pyautogui.press("Enter")
-    time.sleep(1)
-
-    pyperclip.copy(s6)
-    pyautogui.hotkey("ctrl", "v")
-    time.sleep(1)
-    pyautogui.press("Enter")
-    time.sleep(1)
+    for num in range(5):
+        print(5 - num)
+        time.sleep(1)
 
     while True:
 
-        if keyboard.is_pressed('Space'):  # Зажать пробел чтобы прервать цикл
-            break
+        if keyboard.is_pressed('Space'):
+            input("Нажмите Enter чтобы продолжить...")
+            for num in range(5):
+                print(5 - num)
+                time.sleep(1)
 
-        if i == num1:
-            string = str(i) + s1
+        if str(manul_counter) == str(11):
+            string = str(manul_counter) + " " + manul_list[2]
             pyperclip.copy(string)
             pyautogui.hotkey("ctrl", "v")
-            # time.sleep(1)
+            time.sleep(1)
             pyautogui.press("Enter")
-            # time.sleep(1)
-            i += 1
+            time.sleep(1)
+            manul_counter += 1
 
-        if i <= num2:
-            string = str(i) + s2
+        if str(manul_counter)[-1] == str(num1):
+            string = str(manul_counter) + " " + manul_list[0]
             pyperclip.copy(string)
             pyautogui.hotkey("ctrl", "v")
-            # time.sleep(1)
+            time.sleep(1)
             pyautogui.press("Enter")
-            # time.sleep(1)
-            i += 1
+            time.sleep(1)
+            manul_counter += 1
 
-        if i > num2:
-            string = str(i) + s3
+        if str(manul_counter) == str(12):
+            string = str(manul_counter) + " " + manul_list[2]
             pyperclip.copy(string)
             pyautogui.hotkey("ctrl", "v")
-            # time.sleep(1)
+            time.sleep(1)
             pyautogui.press("Enter")
-            # time.sleep(1)
-            i += 1
+            time.sleep(1)
+            manul_counter += 1
+
+        if str(manul_counter) == str(13):
+            string = str(manul_counter) + " " + manul_list[2]
+            pyperclip.copy(string)
+            pyautogui.hotkey("ctrl", "v")
+            time.sleep(1)
+            pyautogui.press("Enter")
+            time.sleep(1)
+            manul_counter += 1
+
+        if str(manul_counter) == str(14):
+            string = str(manul_counter) + " " + manul_list[2]
+            pyperclip.copy(string)
+            pyautogui.hotkey("ctrl", "v")
+            time.sleep(1)
+            pyautogui.press("Enter")
+            time.sleep(1)
+            manul_counter += 1
+
+        elif str(num1) < str(manul_counter)[-1] <= str(num2):
+            string = str(manul_counter) + " " + manul_list[1]
+            pyperclip.copy(string)
+            pyautogui.hotkey("ctrl", "v")
+            time.sleep(1)
+            pyautogui.press("Enter")
+            time.sleep(1)
+            manul_counter += 1
+
+        elif str(manul_counter)[-1] > str(num2) or str(manul_counter)[-1] == str(0):
+            string = str(manul_counter) + " " + manul_list[2]
+            pyperclip.copy(string)
+            pyautogui.hotkey("ctrl", "v")
+            time.sleep(1)
+            pyautogui.press("Enter")
+            time.sleep(1)
+            manul_counter += 1
 
 
-if __name__ == "__main__":
-    p1 = multiprocessing.Process(target=manulomyot2054())
-    p2 = multiprocessing.Process(target=manulomyot2054())
-    p3 = multiprocessing.Process(target=manulomyot2054())
-    p4 = multiprocessing.Process(target=manulomyot2054())
-
-p1.start()
-p2.start()
-p3.start()
-p4.start()
-
-p1.join()
-p2.join()
-p3.join()
-p4.join()
+manuloMyot228()
