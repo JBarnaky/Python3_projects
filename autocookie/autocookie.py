@@ -1,13 +1,13 @@
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 
-PATH = "D:\geckodriver-v0.29.0-win64\geckodriver.exe"
-driver = webdriver.Firefox(PATH)
+driver = webdriver.Firefox(executable_path=r'D:\geckodriver-v0.29.0-win64\geckodriver.exe')
 
 driver.get("https://orteil.dashnet.org/cookieclicker/")
+driver.set_page_load_timeout(5)
 print(driver.title)
 
-driver.implicitly_wait(5)
+driver.implicitly_wait(1)
 
 cookie = driver.find_element_by_id("bigCookie")
 cookie_count = driver.find_element_by_id("cookies")
