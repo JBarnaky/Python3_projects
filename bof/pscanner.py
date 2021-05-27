@@ -25,3 +25,14 @@ try:
 		if result == 0:
 			print("Port {} is open".format(port))
 		s.close()
+except KeyboardInterrupt:
+	print("\nExiting program.")
+	sys.exit()
+	
+except socket.gaierror:
+	print("Hostname can`t be resolved.")
+	sys.exit()
+	
+except socket.error:
+	print("Can`t connect to server")
+	sys.exit()
