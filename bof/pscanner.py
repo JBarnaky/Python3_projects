@@ -24,3 +24,4 @@ try:
 		print("Scanning port {}".format(port))
 		if result == 0:
 			print("Port {} is open".format(port))
+		s.close()
