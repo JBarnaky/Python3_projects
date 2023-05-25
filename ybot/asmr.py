@@ -3,6 +3,8 @@ import pyautogui
 import pyperclip
 import time
 
+time.sleep(1)
+
 def autoinput(string):
     pyperclip.copy(string)
     time.sleep(0.1) 
@@ -16,17 +18,19 @@ def asmr():
     manul_counter = 1  
 
     print("АСМР - Автоматический Считатель Манулов Революционный версии 2754 подключается ... ")  
-
+    time.sleep(1)
     input("Нажмите Enter чтобы продолжить...")
 
     for num in range(5):
-        print(5 - num) 
+        print(5 - num)
+        time.sleep(1)
 
     while True:
         if keyboard.is_pressed('Space'):  
             input("Нажмите Enter чтобы продолжить...")
             for num in range(5):
                 print(5 - num)
+                time.sleep(1)
 
         manul_str = str(manul_counter)
         manul_len = len(manul_str)
@@ -45,6 +49,7 @@ def asmr():
             string = f"{manul_counter} {manul_tup[2]}"
 
         autoinput(string)
+        time.sleep(1)
         manul_counter += 1
 
 asmr()
