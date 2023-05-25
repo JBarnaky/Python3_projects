@@ -2,16 +2,17 @@ import keyboard
 import pyautogui
 import pyperclip
 import time
+import random
 
 time.sleep(1)
 
 def autoinput(string):
     pyperclip.copy(string)
-    time.sleep(0.1) 
+    time.sleep(random.uniform(0.1, 0.2)) 
     pyautogui.hotkey("ctrl", "v")
-    time.sleep(0.1)
+    time.sleep(random.uniform(0.1, 0.2))
     pyautogui.press("Enter")
-    time.sleep(5)
+    time.sleep(5 + random.uniform(0.1, 1.0))
 
 def asmr():
     manul_tup = ('манул', 'манула', 'манулов', 'манулы')
