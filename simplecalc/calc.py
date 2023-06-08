@@ -1,33 +1,56 @@
-while True:
-    print("Options:")
-    print("Enter, 'add' to add two numbers")
-    print("Enter, 'sub' to subtract two numbers")
-    print("Enter, 'mult' to multiply two numbers")
-    print("Enter, 'div' to divide two numbers")
-    print("Enter, 'quit' to exit the program")
-    user_input = input(": ")
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton
 
-    if user_input == "quit":
-        print("Exiting program. Goodbye!")
-        break
-    elif user_input in ["add", "sub", "mult", "div"]:
-        num1 = float(input("Enter the first number: "))
-        num2 = float(input("Enter the second number: "))
 
-        if user_input == "add":
-            result = num1 + num2
-        elif user_input == "sub":
-            result = num1 - num2
-        elif user_input == "mult":
-            result = num1 * num2
+class Calculator(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self.layout = QVBoxLayout()
+        self.setWindowTitle('Cimple calc')
+
+        self.input_field = QLineEdit()
+        self.layout.addWidget(self.input_field)
+
+        button_grid = [
+            ["7", "8", "9", "/"],
+            ["4", "5", "6", "*"],
+            ["1", "2", "3", "+"],
+            ["0", ".", "C", "-"],
+            ["="]
+        ]
+
+        for row in button_grid:
+            row_layout = QHBoxLayout()
+            for item in row:
+                button = QPushButton(item)
+                if item == "C":
+                    button.clicked.connect(self.clear_input_field)
+                else:
+                    button.clicked.connect(lambda _, text=item: self.button_clicked(text))
+                row_layout.addWidget(button)
+            self.layout.addLayout(row_layout)
+
+        self.setLayout(self.layout)
+
+    def button_clicked(self, text):
+        if text == "=":
+            try:
+                result = eval(self.input_field.text())
+                self.input_field.setText(str(result))
+            except:
+                self.input_field.setText("Error")
         else:
-            if num2 != 0:
-                result = num1 / num2
-            else:
-                print("Error: division by zero")
-                continue
+            self.input_field.setText(self.input_field.text() + text)
 
-        print(f"The result of {user_input} is {result}")
-        input("Press enter to continue")
-    else:
-        print("Unknown input. Please try again.") 
+    def clear_input_field(self):
+        self.input_field.setText("")
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+
+    calculator = Calculator()
+    calculator.show()
+
+    sys.exit(app.exec_())
