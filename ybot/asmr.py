@@ -1,56 +1,54 @@
 import keyboard
-import pyautogui
 import pyperclip
+import pyautogui
 import time
 import random
 
-time.sleep(1)
+manul_tup = ('манул', 'манула', 'манулов')
+# manul_tup = ('vfyek', 'vfyekf', 'vfyekjd')
+manul_counter = int(input("Автоматический Считатель Манулов Революционный...\nВведите число начало отсчета манулов и нажмите Enter чтобы продолжить: "))
+output = f"{manul_counter}  {manul_tup[0]}"
 
-def autoinput(string):
-    pyperclip.copy(string)
-    time.sleep(random.uniform(0.1, 0.2)) 
-    pyautogui.hotkey("ctrl", "v")
-    time.sleep(random.uniform(0.1, 0.2))
-    pyautogui.press("Enter")
-    time.sleep(5 + random.uniform(0.1, 1.0))
+def autoInput(output):
 
-def asmr():
-    manul_tup = ('манул', 'манула', 'манулов', 'манулы')
-    manul_counter = 1  
+    # pyautogui.hotkey('alt', 'shift')
+    # pyautogui.write(output, interval=0.25)
+    # pyautogui.hotkey('alt', 'shift')
 
-    print("АСМР - Автоматический Считатель Манулов Революционный версии 2754 подключается ... ")  
-    time.sleep(1)
-    input("Нажмите Enter чтобы продолжить...")
+    for char in output:
+        pyperclip.copy(char)
+        pyautogui.hotkey('ctrl', 'v', interval=random.uniform(0.01, 0.1))
 
-    for num in range(5):
-        print(5 - num)
+    pyautogui.press("enter")
+    time.sleep(random.uniform(5.0, 6.0))
+
+def asmr(manul_counter, manul_tup):
+
+    for num in range(5, 0, -1):
+        print(num)
         time.sleep(1)
 
     while True:
-        if keyboard.is_pressed('Space'):  
+        if keyboard.is_pressed('space'):  
             input("Нажмите Enter чтобы продолжить...")
-            for num in range(5):
-                print(5 - num)
+            for num in range(5, 0, -1):
+                print(num)
                 time.sleep(1)
+        if keyboard.is_pressed('Esc'):
+            break
 
         manul_str = str(manul_counter)
-        manul_len = len(manul_str)
 
-        if manul_str == '11':
-            string = f"{manul_counter} {manul_tup[2]}"
-        elif manul_str[-1] == '1':
-            string = f"{manul_counter} {manul_tup[0]}"
-        elif manul_str in {'12', '13', '14'}:
-            string = f"{manul_counter} {manul_tup[2]}"
+        if manul_str.endswith(('0', '5', '6', '7', '8', '9', '11', '12', '13', '14')):
+            output = f"{manul_counter}  {manul_tup[2]}"
+        elif manul_str.endswith('1'):
+            output = f"{manul_counter}  {manul_tup[0]}"
         elif '1' < manul_str[-1] <= '4':
-            string = f"{manul_counter} {manul_tup[1]}"
-        elif manul_str[-1] > '4' or manul_str[-1] == '0':
-            string = f"{manul_counter} {manul_tup[2]}"
+            output = f"{manul_counter}  {manul_tup[1]}"
         else:
-            string = f"{manul_counter} {manul_tup[2]}"
+            output = f"{manul_counter}  {manul_tup[2]}"
 
-        autoinput(string)
-        time.sleep(1)
+        autoInput(output)
         manul_counter += 1
 
-asmr()
+asmr(manul_counter, manul_tup)
