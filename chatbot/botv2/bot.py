@@ -15,7 +15,7 @@ def load_pairs_and_reflections(filename):
     return pairs, reflections
 
 def chat():
-    print("Hi! I am a chatbot created by Analytics Vidhya for your service")
+    print("Hi! I am a chatbot created by JBarnaky for your service")
     pairs, reflections = load_pairs_and_reflections('chatbot_data.csv')
     chat = Chat(pairs, reflections)
     chat.converse()
