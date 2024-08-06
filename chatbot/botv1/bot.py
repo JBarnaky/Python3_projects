@@ -1,70 +1,66 @@
 import random
 import string
 import nltk
+from nltk.tokenize import word_tokenize, sent_tokenize
+from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-
 
 # Downloading necessary packages
 nltk.download('punkt')
 nltk.download('wordnet')
 
+class BiboChatbot:
+    def __init__(self, filename):
+        self.filename = filename
+        self.lemmatizer = WordNetLemmatizer()
+        self.remove_punct_dict = dict((ord(punct), None) for punct in string.punctuation)
+        self.GREETING_INPUTS = ("hello", "hi", "greetings", "sup", "what's up", "hey")
+        self.GREETING_RESPONSES = ["hi", "hey", "*nods*", "hi there", "hello", "I am glad! You are talking to me"]
+        self.sent_tokens = self.load_data()
 
-# Reading and preprocessing data
-with open('chatbot.txt', 'r', errors='ignore') as file:
-    raw = file.read().lower()
-sent_tokens = nltk.sent_tokenize(raw)
-word_tokens = nltk.word_tokenize(raw)
+    def load_data(self):
+        with open(self.filename, 'r', errors='ignore') as file:
+            raw = file.read().lower()
+            return sent_tokenize(raw)
 
+    def preprocess_text(self, text):
+        tokens = word_tokenize(text.lower().translate(self.remove_punct_dict))
+        return [self.lemmatizer.lemmatize(token) for token in tokens]
 
-# Text preprocessing functions
-lemmer = nltk.stem.WordNetLemmatizer()
-remove_punct_dict = dict((ord(punct), None) for punct in string.punctuation)
+    def greeting(self, sentence):
+        for word in sentence.split():
+            if word.lower() in self.GREETING_INPUTS:
+                return random.choice(self.GREETING_RESPONSES)
 
-def LemTokens(tokens):
-    return [lemmer.lemmatize(token) for token in tokens]
+    def response(self, user_response):
+        tfidf_vec = TfidfVectorizer(tokenizer=self.preprocess_text, stop_words='english')
+        tfidf = tfidf_vec.fit_transform(self.sent_tokens + [user_response])
+        vals = cosine_similarity(tfidf[-1], tfidf)
+        idx = vals.argsort()[0][-2]
+        flat = vals.flatten()
+        flat.sort()
+        req_tfidf = flat[-2]
+        if req_tfidf == 0:
+            return "I am sorry! I don't understand you"
+        else:
+            return self.sent_tokens[idx]
 
-def LemNormalize(text):
-    return LemTokens(nltk.word_tokenize(text.lower().translate(remove_punct_dict)))
+    def run(self):
+        print("BIBO: My name is Bibo. I will answer your queries about Chatbots. If you want to exit, type Bye!")
+        while True:
+            user_response = input().lower()
+            if user_response == 'bye':
+                print("BIBO: Bye! take care..")
+                break
+            elif user_response in ('thanks', 'thank you'):
+                print("BIBO: You are welcome..")
+                break
+            elif self.greeting(user_response) is not None:
+                print("BIBO: " + self.greeting(user_response))
+            else:
+                print("BIBO: " + self.response(user_response))
 
-
-# Chatbot response functions
-GREETING_INPUTS = ("hello", "hi", "greetings", "sup", "what's up", "hey")
-GREETING_RESPONSES = ["hi", "hey", "*nods*", "hi there", "hello", "I am glad! You are talking to me"]
-def greeting(sentence):
-    for word in sentence.split():
-        if word.lower() in GREETING_INPUTS:
-            return random.choice(GREETING_RESPONSES)
-
-def response(user_response):
-    bibo_response = ''
-    sent_tokens.append(user_response)
-    TfidfVec = TfidfVectorizer(tokenizer=LemNormalize, stop_words='english')
-    tfidf = TfidfVec.fit_transform(sent_tokens)
-    vals = cosine_similarity(tfidf[-1], tfidf)
-    idx = vals.argsort()[0][-2]
-    flat = vals.flatten()
-    flat.sort()
-    req_tfidf = flat[-2]
-    if req_tfidf == 0:
-        bibo_response = "I am sorry! I don't understand you"
-    else:
-        bibo_response = sent_tokens[idx]
-    sent_tokens.remove(user_response)
-    return bibo_response
-
-
-# Chatbot initialization and main loop
-print("BIBO: My name is Bibo. I will answer your queries about Chatbots. If you want to exit, type Bye!")
-while True:
-    user_response = input().lower()
-    if user_response == 'bye':
-        print("BIBO: Bye! take care..")
-        break
-    elif user_response in ('thanks', 'thank you'):
-        print("BIBO: You are welcome..")
-        break
-    elif greeting(user_response) is not None:
-        print("BIBO: " + greeting(user_response))
-    else:
-        print("BIBO: " + response(user_response))
+if __name__ == "__main__":
+    chatbot = BiboChatbot('chatbot.txt')
+    chatbot.run()
