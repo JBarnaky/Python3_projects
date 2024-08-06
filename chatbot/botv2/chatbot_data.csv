@@ -1,0 +1,38 @@
+pairs, pattern, responses
+pairs, my name is (.*), Hello %1, How are you today?
+pairs, hi|hey|hello, Hello, Hey there
+pairs, what is your name?, I am a bot created by Analytics Vidhya. you can call me crazy!
+pairs, how are you?, I'm doing goodnHow about You?
+pairs, sorry (.*), Its alright, Its OK, never mind
+pairs, I am fine, Great to hear that, How can I help you?
+pairs, i'm (.*) doing good, Nice to hear that, How can I help you?:)
+pairs, (.*) age?, I'm a computer program dudenSeriously you are asking me this?
+pairs, what (.*) want?, Make me an offer I can't refuse
+pairs, (.*) created?, Raghav created me using Python's NLTK library, top secret ;)
+pairs, (.*) (location|city)?, Indore, Madhya Pradesh
+pairs, how is weather in (.*)?, Weather in %1 is awesome like always, Too hot man here in %1, Too cold man here in %1, Never even heard about %1
+pairs, i work in (.*)?, %1 is an Amazing company, I have heard about it. But they are in huge loss these days.
+pairs, (.*)raining in (.*), No rain since last week here in %2, Damn its raining too much here in %2
+pairs, how (.*) health(.*), I'm a computer program, so I'm always healthy
+pairs, (.*) (sports|game)?, I'm a very big fan of Football
+pairs, who (.*) sportsperson?, Messy, Ronaldo, Roony
+pairs, who (.*) (moviestar|actor)?, Brad Pitt
+pairs, i am looking for online guides and courses to learn data science, can you suggest?, Crazy_Tech has many great articles with each step explanation along with code, you can explore
+pairs, quit, BBye take care. See you soon :), It was nice talking to you. See you soon :)
+
+reflections, i am, you are
+reflections, i was, you were
+reflections, i, you
+reflections, i'm, you are
+reflections, i'd, you would
+reflections, i've, you have
+reflections, i'll, you will
+reflections, my, your
+reflections, you are, I am
+reflections, you were, I was
+reflections, you've, I have
+reflections, you'll, I will
+reflections, your, my
+reflections, yours, mine
+reflections, you, me
+reflections, me, you
