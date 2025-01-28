@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Results</title>
+</head>
+<body>
+    <h1>Weather for {{ city }}</h1>
+    {% for result in results %}
+        <div style="margin-bottom: 2em; border: 1px solid #ccc; padding: 1em;">
+            <h2>{{ result.provider }}</h2>
+            {% if 'error' in result %}
+                <p style="color: red;">Error: {{ result.error }}</p>
+            {% else %}
+                <p>Temperature: {{ result.data.temp }}°C</p>
+                <p>Humidity: {{ result.data.humidity }}%</p>
+                <p>Conditions: {{ result.data.description }}</p>
+                <details>
+                    <summary>Raw Data</summary>
+                    <pre>{{ result.raw }}</pre>
+                </details>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <a href="/">New Search</a>
+</body>
+</html>

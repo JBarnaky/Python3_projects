@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather App</title>
+</head>
+<body>
+    <h1>Weather Check</h1>
+    <form method="POST" action="/weather">
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required>
+        
+        <h3>Select Providers:</h3>
+        {% for provider in providers %}
+            <label>
+                <input type="checkbox" name="providers" value="{{ provider }}">
+                {{ provider|title }}
+            </label><br>
+        {% endfor %}
+        
+        <button type="submit">Get Weather</button>
+    </form>
+</body>
+</html>
